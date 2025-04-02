@@ -108,18 +108,3 @@ print(freq_selector.get_feature_names())
 print("\n特征矩阵:")
 print(freq_features)
 
-# 2. 使用TF-IDF特征
-print("\n=== TF-IDF特征 ===")
-tfidf_selector = TextFeatureSelector(
-    method='tfidf',
-    max_features=10,
-    stop_words='english',
-    ngram_range=(1, 2)  # 包含unigram和bigram
-)
-tfidf_features = tfidf_selector.fit_transform(corpus)
-
-print("\n特征名称:")
-print(tfidf_selector.get_feature_names())
-
-print("\n特征矩阵:")
-print(np.round(tfidf_features, 3))  # 保留3位小数便于查看
