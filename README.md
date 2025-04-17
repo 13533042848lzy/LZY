@@ -1,53 +1,58 @@
-# 小八的自我介绍
-![小八形象](./小八形象.jpg)
+### Vocabulary类
+1、在Vocabulary类中，mask_token对应的索引通过调用add_token方法赋值给self.mask_index属性。
 
- 大家好，我是**小八~**，我的身份是*一只小猫*
-___
+2、lookup_token方法中，如果self.unk_index >=0，则对未登录词返回self.unk_index。
 
-## 基础档案
+3、调用add_many方法添加多个token时，实际是通过循环调用add_token方法实现的。
 
-### 外貌特征
-- 毛茸茸的白色身体
-* 标志性蓝色的猫耳朵刘海
-+ 尾巴是蓝色的
+### CBOWVectorizer类
+4、vectorize方法中，当vector_length < 0时，最终向量长度等于indices的长度。
 
-## 我的好朋友
-1. 乌萨奇
-2. 吉伊
-3. ~~飞鼠~~（划掉：因为被夺走了身体）
+5、from_dataframe方法构建词表时，会遍历DataFrame中context 和 target两列的内容。
 
-### 重要坐标
-[住址：chiikawa大世界](https://www.chiikawa.com)
+6、out_vector[len(indices):]的部分填充为self.cbow_vocab.mask_index。
 
-### 日常作息表
-| 时间 | 活动              |
-|------|-----------------|
-| 早晨 | 和吉伊一起晨练         |
-| 中午 | 和吉伊，乌萨奇一起参加大型讨伐 |
-| 晚上 | 自制美食            |
+### CBOWDataset类
+7、_max_seq_length通过计算所有context列的分词后的词数的最大值得出。
 
-### 人生信条
-> "和好朋友一直幸福快乐的生活！"
+8、set_split方法通过self._lookup_dict选择对应的DataFrame和size。
 
+9、__getitem__返回的字典中，y_target通过查找target列的token得到。
 
----
+模型结构
+10、CBOWClassifier的forward中，x_embedded_sum的计算方式是embedding(x_in).sum(dim=1)。
 
-## 我的专业是讨伐奇美拉
+11、模型输出层fc1的out_features等于vocabulary_size参数的值。
 
-## 我最喜欢的一段代码
-```python
-import numpy as np
-print(np.array([1,2,3]) ** 2)
-```
-其中执行`print(np.array([1, 2, 3]) ** 2)`可输出结果。
-___
+### 训练流程
+12、generate_batches函数通过PyTorch的DataLoader类实现批量加载。
 
-## 我最喜欢的环境管理工具是conda
-![截图一](./截图一.png)
+13、训练时classifier.train()的作用是启用Dropout和BatchNorm模式。
 
-## 我可以在IDE上使用我建立的虚拟环境
-![截图二](./截图二.png)
+14、反向传播前必须执行optimizer.zero_grad()清空梯度。
 
-## classify运行截图
-![截图四](./截图四.png)
+15、compute_accuracy中y_pred_indices通过max(dim=1)方法获取预测类别。
 
+### 训练状态管理
+16、make_train_state中early_stopping_best_val初始化为1e8。
+
+17、update_train_state在连续5次验证损失未下降时会触发早停。
+
+18、当验证损失下降时，early_stopping_step会被重置为0。
+
+### 设备与随机种子
+19、set_seed_everywhere中与CUDA相关的设置是torch.cuda.manual_seed_all(seed)。
+
+20、args.device的值根据torch.cuda.is_available().is_available()确定。
+
+### 推理与测试
+21、get_closest函数中排除计算的目标词本身是通过continue判断word == target_word实现的。
+
+22、测试集评估时一定要调用eval()方法禁用dropout。
+
+### 关键参数
+23、CBOWClassifier的padding_idx参数默认值为0。
+
+24、args中控制词向量维度的参数是embedding_size。
+
+25、学习率调整策略ReduceLROnPlateau的触发条件是验证损失减少（增加/减少）。
