@@ -2,8 +2,8 @@
  "cells": [
   {
    "cell_type": "code",
-   "execution_count": 1,
-   "id": "bee21b27-70ff-4082-a799-8d275aa24d3d",
+   "execution_count": 11,
+   "id": "ed6979ab-ee8c-4e1a-9eb9-3d7e0daa66fe",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -17,13 +17,14 @@
     "import datasets\n",
     "import torchtext\n",
     "import tqdm\n",
-    "import evaluate"
+    "import evaluate\n",
+    "from datasets import load_dataset"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
-   "id": "253006f7-8650-4bde-909d-2697c6db98b9",
+   "execution_count": 12,
+   "id": "ecab832c-04df-459a-b344-4eb470d3ef76",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -38,29 +39,80 @@
   },
   {
    "cell_type": "markdown",
-   "id": "5c5f572e-314b-48ee-8d1e-2031570e79e4",
+   "id": "f4b1562a-1acd-4a21-880f-12a665dacabd",
    "metadata": {},
    "source": [
-    "### 1.这行代码设置了 Hugging Face 库的默认服务端点为镜像源 https://hf-mirror.com，而非官方源 https://huggingface.co。\n",
-    "### 2.官方源服务器可能因地理位置或网络限制导致国内用户访问缓慢，镜像源通常部署在本地或网络条件更好的服务器，可显著提升下载速度。国内及某些地区可能因政策原因无法直接访问 Hugging Face 官方源，可以使下载更稳定。\n",
-    "### 3.这行代码从Hugging Face Hub下载并加载名为multi30k的数据集，返回一个结构化的数据集对象。"
+    "# 数据集Dataset"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "fab6fe11-f9f9-4df4-9c3e-1f5a72bf3357",
+   "metadata": {},
+   "source": [
+    "#### 第一行代码的作用是 修改 Hugging Face 的默认 API 访问地址，使其指向镜像站 hf-mirror.com 而非官方源 (https://huggingface.co)。\n",
+    "#### 第二行行代码 从 Hugging Face Hub 加载名为 bentrevett/multi30k 的数据集。"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
-   "id": "c938dbc5-a0e6-436b-9143-f91415546f60",
+   "execution_count": 13,
+   "id": "56e60e7b-755f-4291-8354-64ee2ce36046",
    "metadata": {},
-   "outputs": [],
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "3b239d389abe4c438aa8a4d23e72683c",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "Generating train split: 0 examples [00:00, ? examples/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "635888637c734baa8067cadafdbad7ec",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "Generating validation split: 0 examples [00:00, ? examples/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "de17184af83c43f18d9026d87b21b0a7",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "Generating test split: 0 examples [00:00, ? examples/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
    "source": [
-    "os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'\n",
-    "dataset = datasets.load_dataset(\"bentrevett/multi30k\")"
+    "# os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'\n",
+    "# dataset = datasets.load_dataset(\"bentrevett/multi30k\")\n",
+    "dataset = load_dataset(\"multi30k\")\n"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
-   "id": "c814a70c-dcf8-47c6-8645-176882519f4e",
+   "execution_count": 14,
+   "id": "88aea329-fc85-4b17-91e5-da349971c28c",
    "metadata": {},
    "outputs": [
     {
@@ -82,7 +134,7 @@
        "})"
       ]
      },
-     "execution_count": 5,
+     "execution_count": 14,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -93,8 +145,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
-   "id": "a0cceb0b-c7e6-4e80-9a86-435c43a95e42",
+   "execution_count": 15,
+   "id": "1696127d-a18f-4a34-acd4-d978b0996292",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -107,8 +159,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
-   "id": "cd091712-5bc9-4fa2-a44e-f1c5eb5f9a87",
+   "execution_count": 16,
+   "id": "6659a028-6dc5-4845-85d0-45a6a303a498",
    "metadata": {},
    "outputs": [
     {
@@ -118,7 +170,7 @@
        " 'de': 'Zwei junge weiße Männer sind im Freien in der Nähe vieler Büsche.'}"
       ]
      },
-     "execution_count": 7,
+     "execution_count": 16,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -129,8 +181,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
-   "id": "6099ff9a-e4c6-424a-ba56-cf30e1268f21",
+   "execution_count": 17,
+   "id": "1aec6f3a-e002-4c7a-af6b-03f4efe073fe",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -140,8 +192,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
-   "id": "22ba09e7-5c53-438d-9d5b-9d894ca25641",
+   "execution_count": 18,
+   "id": "ac2a9ce9-772f-4fc1-8859-e818aa01c933",
    "metadata": {},
    "outputs": [
     {
@@ -150,7 +202,7 @@
        "['What', 'a', 'lovely', 'day', 'it', 'is', 'today', '!']"
       ]
      },
-     "execution_count": 9,
+     "execution_count": 18,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -163,16 +215,22 @@
   },
   {
    "cell_type": "markdown",
-   "id": "354da971-9375-4926-ac16-fe47765e719e",
+   "id": "fc43585c-9e4a-4acb-adae-d2bf07a1ad78",
    "metadata": {},
    "source": [
-    "### 1.tokenize_example函数作用是对英语和德语进行分词、标准化和格式化，使其符合Seq2Seq模型的输入要求。"
+    "### 这个tokenize_example函数用于 对双语（英语和德语）句子进行分词和预处理，通常用于机器翻译任务（如 multi30k 数据集）\n",
+    "\n",
+    "1.标准化文本处理：统一分词、大小写和长度，便于后续转换为词嵌入或模型输入。\n",
+    "\n",
+    "2.适配序列模型：添加 sos 和 eos 标记，帮助 Transformer 等模型识别句子边界。\n",
+    "\n",
+    "3.控制输入维度：通过 max_length 避免过长的序列影响训练效率（如 GPU 内存不足）。"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
-   "id": "34644544-599c-4f28-bd00-60b5cfcbc1a0",
+   "execution_count": 19,
+   "id": "4fdcb100-e1b9-4a2f-bc5c-46d2833e5c7d",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -189,24 +247,54 @@
   },
   {
    "cell_type": "markdown",
-   "id": "50b058bf-6a97-4fd5-90a4-1fe9c391f872",
+   "id": "7e41df47-8052-49af-b9c0-3bcf314266d7",
    "metadata": {},
    "source": [
-    "### 1. sos 表示句子的起始标记，用于告诉模型“从这里开始生成序列”。在解码器中，它通常作为生成目标语言序列的第一个输入\n",
-    "### 2. eos 表示句子的结束标记，用于告诉模型“序列到此为止”。模型在生成过程中遇到 eos 时会停止输出\n",
-    "### 3. 对数据集中的每一条样本 tokenize_example函数，将原始文本转换为模型可处理的格式。Hugging Face datasets 库的 map 函数支持多进程处理，显著提升大规模数据集的预处理速度。"
+    "1.<sos>是Start of Sentence的缩写，表示句子的开始，帮助模型知道何时开始生成输出。\n",
+    "\n",
+    "2.<eos>\t是End of Sentence的缩写，表示句子的结束，告诉模型何时停止生成。\n",
+    "\n",
+    "3.dataset.map() 是 Hugging Face datasets 库的方法，用于对数据集中的每个样本应用一个处理函数，此处为tokenize_example"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
-   "id": "440e803a-f9ba-4454-a900-3550db737351",
+   "execution_count": 20,
+   "id": "80068807-e7cf-4c54-8d64-4c28a323c0ad",
    "metadata": {},
    "outputs": [
     {
      "data": {
       "application/vnd.jupyter.widget-view+json": {
-       "model_id": "2ff7d253d744448b9e35b0f49e65afbd",
+       "model_id": "525ae9881c6945f9b9265f95a4ad0a70",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "Map:   0%|          | 0/29000 [00:00<?, ? examples/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "7e00c911dbcb46f8abfa6c3fd12625e1",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "Map:   0%|          | 0/1014 [00:00<?, ? examples/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "2d9a17d978ab4405b14a193039fb2a33",
        "version_major": 2,
        "version_minor": 0
       },
@@ -240,8 +328,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
-   "id": "e497ee30-9c8c-47ec-91f0-088bc5f5dcbb",
+   "execution_count": 21,
+   "id": "e8b6414f-90c3-47f6-897f-21bfec466dfe",
    "metadata": {},
    "outputs": [
     {
@@ -279,7 +367,7 @@
        "  '<eos>']}"
       ]
      },
-     "execution_count": 12,
+     "execution_count": 21,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -290,8 +378,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
-   "id": "43706fe6-908a-4dc1-8034-990f07fe3050",
+   "execution_count": 22,
+   "id": "0e9379bf-d9e9-4f54-b7e3-5b7b15f64462",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -321,8 +409,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
-   "id": "2901655d-57f9-446b-8e64-86a47e7c6b25",
+   "execution_count": 23,
+   "id": "19ea851e-0848-44bf-83a1-f506fccb36ff",
    "metadata": {},
    "outputs": [
     {
@@ -331,7 +419,7 @@
        "['<unk>', '<pad>', '<sos>', '<eos>', 'a', '.', 'in', 'the', 'on', 'man']"
       ]
      },
-     "execution_count": 14,
+     "execution_count": 23,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -342,8 +430,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
-   "id": "9d83b29c-b03b-4f2b-a44b-6679803806e4",
+   "execution_count": 24,
+   "id": "35414b26-a333-456c-b250-6665fa244813",
    "metadata": {},
    "outputs": [
     {
@@ -352,7 +440,7 @@
        "['<unk>', '<pad>', '<sos>', '<eos>', '.', 'ein', 'einem', 'in', 'eine', ',']"
       ]
      },
-     "execution_count": 15,
+     "execution_count": 24,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -363,8 +451,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 16,
-   "id": "41f7ce02-bf03-4e28-ad4e-26f6d4ea005d",
+   "execution_count": 25,
+   "id": "8094798c-2cbb-4df9-b768-6f7651c03eb1",
    "metadata": {},
    "outputs": [
     {
@@ -373,7 +461,7 @@
        "7"
       ]
      },
-     "execution_count": 16,
+     "execution_count": 25,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -384,8 +472,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 17,
-   "id": "af4e61c2-7edb-4a50-89fe-67372ed4b33c",
+   "execution_count": 26,
+   "id": "5675f2e5-2555-425e-88bc-057d84e1ef6e",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -398,8 +486,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 18,
-   "id": "790646fc-1cc6-481a-9023-66d1c0770d9c",
+   "execution_count": 27,
+   "id": "0f747669-4498-43ba-87dd-19a1656026b9",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -409,8 +497,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 19,
-   "id": "a1ed89b3-3131-42d2-b2c6-325c9b9abe11",
+   "execution_count": 28,
+   "id": "f8d893ee-170c-46b2-bc5c-d67c166602f6",
    "metadata": {},
    "outputs": [
     {
@@ -419,7 +507,7 @@
        "[956, 2169, 173, 0, 821]"
       ]
      },
-     "execution_count": 19,
+     "execution_count": 28,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -431,8 +519,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 20,
-   "id": "70af2219-3242-4908-a5f8-7b0b039ae4bc",
+   "execution_count": 29,
+   "id": "312193ee-e3d4-44d0-8e40-748aa27f503d",
    "metadata": {},
    "outputs": [
     {
@@ -441,7 +529,7 @@
        "['i', 'love', 'watching', '<unk>', 'shows']"
       ]
      },
-     "execution_count": 20,
+     "execution_count": 29,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -452,25 +540,20 @@
   },
   {
    "cell_type": "markdown",
-   "id": "b57fa3e6-d63b-457c-95de-305be402b3f6",
+   "id": "9f05244c-48c0-448f-ad9e-7c7c937c71de",
    "metadata": {},
    "source": [
-    "### 将Tokens列表转换为索引列表后，“crime”的索引值为0，而无论是英语词汇表还是德语词汇表，索引为0的Token都对应 “unk”"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "8f5264fa-d317-4ee7-9ea4-a0a0e7905c0d",
-   "metadata": {},
-   "source": [
-    "### 1.numericalize_example作用是将分词后的文本序列转换为数值索引序列。\n",
-    "### 2.fn_kwargs = {\"en_vocab\": en_vocab, \"de_vocab\": de_vocab}：通过字典传递词汇表对象，确保每个样本处理时能访问到词表。然后将numericalize_example函数批量应用于训练集，测试集，验证集。"
+    "### 这两个单元格的代码共同完成了将分词后的文本转换为数值ID序列的过程。\n",
+    "\n",
+    "1.第一段代码的作用是将分词后的英文和德文单词列表分别转换为对应的数值ID序列：通过查询词汇表（en_vocab和de_vocab）的lookup_indices方法，将example中的\"en_tokens\"和\"de_tokens\"每个单词替换为词汇表中的整数编号（如\"cat\"→42），最终返回包含\"en_ids\"和\"de_ids\"这两个数值序列的新字典。\n",
+    "\n",
+    "2.这段代码使用fn_kwargs固定传递词汇表参数，通过dataset.map()将numericalize_example函数批量应用到数据集的所有样本上，为每条数据新增数值ID列（\"en_ids\"和\"de_ids\"），同时保留原始的分词列。例如，将[\"the\",\"cat\"]转换为[5,12]这样的数字序列，而原始文本仍可查看。"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 21,
-   "id": "81eaed2e-6189-45cd-8568-d112ae1d472b",
+   "execution_count": 30,
+   "id": "04d8bf9c-6976-422b-adc9-bb1f5c27d682",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -482,14 +565,42 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 22,
-   "id": "839242c6-6d9d-4385-9ab3-3e29841ad2ab",
+   "execution_count": 31,
+   "id": "bc7e2771-6977-4eb5-bcfe-b2266b0e509c",
    "metadata": {},
    "outputs": [
     {
      "data": {
       "application/vnd.jupyter.widget-view+json": {
-       "model_id": "b65e45d22b3847a8a29f9689519b4ff3",
+       "model_id": "721132d973594037bb2699d78ccb1326",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "Map:   0%|          | 0/29000 [00:00<?, ? examples/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "4553916b009d4ca4a9b8313b10f12fcf",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "Map:   0%|          | 0/1014 [00:00<?, ? examples/s]"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    },
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "31b090d9b8d44393a06e4df67120753e",
        "version_major": 2,
        "version_minor": 0
       },
@@ -511,8 +622,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 23,
-   "id": "f561e1ca-9c71-40dd-990d-3c617cd55f86",
+   "execution_count": 32,
+   "id": "7795d525-b2e2-4f5d-bf95-ec76c6d9b2f0",
    "metadata": {},
    "outputs": [
     {
@@ -552,7 +663,7 @@
        " 'de_ids': [2, 18, 26, 253, 30, 84, 20, 88, 7, 15, 110, 7647, 3171, 4, 3]}"
       ]
      },
-     "execution_count": 23,
+     "execution_count": 32,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -563,8 +674,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 24,
-   "id": "f5ca7357-fa5a-4fa5-a2f5-fabfd2139af0",
+   "execution_count": 33,
+   "id": "965cb615-180c-4608-8b22-57e255e140e0",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -590,8 +701,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 25,
-   "id": "5c30e87b-6d86-4ef9-af85-9aa721b9c88e",
+   "execution_count": 34,
+   "id": "1696ebb0-ec4f-40cc-aa33-9c4d1be6a6a2",
    "metadata": {},
    "outputs": [
     {
@@ -633,7 +744,7 @@
        "  '<eos>']}"
       ]
      },
-     "execution_count": 25,
+     "execution_count": 34,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -644,17 +755,32 @@
   },
   {
    "cell_type": "markdown",
-   "id": "d227dc99-ca94-4108-9527-9840f1375d33",
+   "id": "eede8bbe-7715-4155-818e-f0407d6db4f0",
    "metadata": {},
    "source": [
-    "### 1.get_collate_fn函数生成一个批次数据整理函数 collate_fn，用于将不同长度的句子填充到相同长度。\n",
-    "### 2.get_data_loader函数创建 PyTorch 的数据加载器，用于按批次加载数据集，并应用 collate_fn 处理数据。"
+    "### 这两个函数共同完成了数据批处理和数据加载器创建的工作，是准备训练数据的关键步骤。\n",
+    "\n",
+    "#### 1、get_collate_fn函数（数据批处理函数工厂），生成一个专门处理序列数据的collate函数。\n",
+    "\n",
+    "核心功能：接收一个batch的样本(包含不等长的en_ids和de_ids)，使用pad_sequence进行填充对齐(padding_value指定填充值)，返回填充后的整齐batch数据。\n",
+    "\n",
+    "#### 2、get_data_loader函数（数据加载器创建函数），创建可直接用于训练的数据加载器\n",
+    "\n",
+    "核心功能：调用get_collate_fn获取定制的批处理函数，创建DataLoader实例并配置关键参数如下：\n",
+    "\n",
+    "dataset：要加载的数据集\n",
+    "\n",
+    "batch_size：批大小\n",
+    "\n",
+    "collate_fn：使用上面创建的定制批处理函数\n",
+    "\n",
+    "shuffle：是否打乱数据"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 26,
-   "id": "276bb94f-d46d-444d-bb9f-c7531006f11c",
+   "execution_count": 35,
+   "id": "03dbcbd4-4987-49e9-99ad-6ca2aec5138b",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -675,8 +801,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 27,
-   "id": "5ad935bf-7e53-4d0a-ad5e-0b4c4510bee9",
+   "execution_count": 36,
+   "id": "cb4c33f8-64b8-4929-8d85-46419f9429eb",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -688,13 +814,13 @@
     "        collate_fn=collate_fn,\n",
     "        shuffle=shuffle,\n",
     "    )\n",
-    "    return data_loader"
+    "    return data_loader\n"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 28,
-   "id": "5c7a85d0-d1c4-4ef6-b5dc-95311e52c845",
+   "execution_count": 37,
+   "id": "e27cf269-131f-42a3-9b0a-8472250d5d29",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -707,21 +833,62 @@
   },
   {
    "cell_type": "markdown",
-   "id": "3fa9b59a-c572-4957-b5b3-44009405c4bc",
+   "id": "9d7c3c9c-63c5-4bcc-b770-f218c222a83a",
    "metadata": {},
    "source": [
-    "### 1.输入参数为“序列长度, 批次大小”\n",
-    "### 2.词嵌入层：将单词索引转为稠密向量\n",
-    "### 3.Dropout层：训练时随机屏蔽部分神经元防过拟合\n",
-    "### 4.LSTM层：提取序列特征\n",
-    "### 5.输入单词索引 -> 词嵌入 -> Dropout -> 得到序列长度, 批次大小, 词向量维度 -> LSTM处理序列 -> 输出各时间步特征和最终状态\n",
-    "### 6.输出LSTM的最终状态"
+    "### Encoder类实现了一个基于LSTM的序列编码器，主要用于将输入的符号序列编码为隐藏状态表示。\n",
+    "\n",
+    "1. **输入参数：**\n",
+    "\n",
+    "+ input_dim：源语言词汇表大小\n",
+    "\n",
+    "+ embedding_dim：词嵌入维度\n",
+    "\n",
+    "+ hidden_dim：LSTM隐藏层维度\n",
+    "\n",
+    "+ n_layers：LSTM层数\n",
+    "\n",
+    "+ dropout：dropout概率\n",
+    "\n",
+    "2. **核心组件：**\n",
+    "\n",
+    "+ nn.Embedding：将离散的单词索引转换为连续的词向量\n",
+    "\n",
+    "+ nn.LSTM：处理变长序列的双向LSTM\n",
+    "\n",
+    "+ nn.Dropout：防止过拟合\n",
+    "\n",
+    "3. **forward处理流程：**\n",
+    "\n",
+    "+ 输入形状转换：`# src = [src length, batch size]`\n",
+    "\n",
+    "+ 词嵌入+dropout：`embedded = self.dropout(self.embedding(src))`\n",
+    "\n",
+    "+ LSTM编码：`outputs, (hidden, cell) = self.rnn(embedded)`\n",
+    "\n",
+    "其中：\n",
+    "\n",
+    "outputs：所有时间步的顶层隐藏状态\n",
+    "\n",
+    "hidden：最后时间步的所有层隐藏状态\n",
+    "\n",
+    "cell：最后时间步的所有层细胞状态\n",
+    "\n",
+    "4. **输出说明：**\n",
+    "\n",
+    "返回元组`(hidden, cell)`：\n",
+    "\n",
+    "hidden形状：`[n layers, batch size, hidden dim]`\n",
+    "\n",
+    "cell形状：`[n layers, batch size, hidden dim]`\n",
+    "\n",
+    "PS：如果是双向LSTM，`n layers`需要乘以2"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 29,
-   "id": "f8ef3b72-efa0-4252-9ca1-258715d80dfd",
+   "execution_count": 38,
+   "id": "d96d6bf9-4711-485b-a86c-e7f3555b727f",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -748,16 +915,56 @@
   },
   {
    "cell_type": "markdown",
-   "id": "6579375c-d8fe-4fb3-82c2-a8e471d176a6",
+   "id": "2e13f119-a2c6-43a7-bf06-4eb5a40cfca8",
    "metadata": {},
    "source": [
-    "### Decoder解码器基于LSTM实现，用于Seq2Seq模型的目标序列逐词生成：输入为单个时间步的词索引及hidden和cell，通过词嵌入和Dropout后输入LSTM层，结合当前状态更新隐藏特征，再经全连接层映射为目标词表概率分布，同时输出更新后的状态供下一时间步使用，实现自回归解码。"
+    "###  Decoder类的工作流程详解\n",
+    "\n",
+    "1. **初始化阶段：**\n",
+    "\n",
+    "- **参数说明：**\n",
+    "\n",
+    "    + output_dim：目标语言词汇表大小\n",
+    "\n",
+    "    + embedding_dim：词嵌入维度（需与Encoder一致）\n",
+    "\n",
+    "    + hidden_dim：LSTM隐藏层维度（需与Encoder一致）\n",
+    "\n",
+    "    + n_layers：LSTM层数（需与Encoder一致）\n",
+    "\n",
+    "    + dropout：dropout概率\n",
+    "\n",
+    "2. **核心组件：**\n",
+    "\n",
+    "- nn.Embedding：将目标语言的单词索引转换为词向量\n",
+    "\n",
+    "- nn.LSTM：单步解码的LSTM单元（与Encoder结构对称）\n",
+    "\n",
+    "- nn.Linear：将隐藏状态映射到词汇表空间（fc_out）\n",
+    "\n",
+    "- nn.Dropout：正则化层\n",
+    "\n",
+    "3. **forward流程：**\n",
+    "\n",
+    "a) 输入预处理：`input = input.unsqueeze(0)  # [batch_size] -> [1, batch_size]`，将当前时间步的输入（单个单词索引）扩展为序列形式。\n",
+    "\n",
+    "b)词嵌入+dropout：`embedded = self.dropout(self.embedding(input))  # [1, batch_size, embedding_dim]`\n",
+    "\n",
+    "c) LSTM解码：`output, (hidden, cell) = self.rnn(embedded, (hidden, cell))`，接收来自Encoder的hidden/cell作为初始状态，输出当前时间步的隐藏状态output和更新后的LSTM状态。\n",
+    "\n",
+    "d) 词汇预测：`prediction = self.fc_out(output.squeeze(0))  # [batch_size, output_dim]`，通过全连接层计算每个单词的预测概率分布。\n",
+    "\n",
+    "**4.输出说明：**\n",
+    "\n",
+    "- prediction：当前时间步的词汇概率分布（用于计算loss）\n",
+    "\n",
+    "- hidden/cell：更新后的LSTM状态（传递给下一个时间步）"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 30,
-   "id": "12375723-8d2b-4da9-8845-e10017ba2f70",
+   "execution_count": 39,
+   "id": "d01083e6-d8d4-47a0-950c-e37f2d4df0b8",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -798,16 +1005,101 @@
   },
   {
    "cell_type": "markdown",
-   "id": "bed89592-db60-4559-8fa4-8d458c13bebc",
+   "id": "b6bdb82a-bd72-4eed-943d-d915778b25ba",
    "metadata": {},
    "source": [
-    "### Seq2Seq模型通过编码器将源序列编码为上下文向量，解码器基于该状态逐步生成目标序列：首步输入起始符 sos，然后解码器预测当前词的概率分布并更新状态，然后根据teacher_forcing_ratio随机选择下一输入，以概率值决定使用真实目标词或当前预测词，循环至目标序列结束，最终输出所有时间步的预测结果。"
+    "### `Seq2Seq`类的详细解释\n",
+    "\n",
+    "1. **类结构概述**\n",
+    "\n",
+    "`Seq2Seq`类是一个标准的编码器-解码器架构，包含：\n",
+    "\n",
+    "- 编码器（encoder）：将源语言序列编码为上下文向量\n",
+    "\n",
+    "- 解码器（decoder）：基于上下文向量逐步生成目标语言序列\n",
+    "\n",
+    "- 设备（device）：指定模型运行设备（CPU/GPU）\n",
+    "\n",
+    "- 一致性检查：确保编码器和解码器的隐藏层维度和层数匹配\n",
+    "\n",
+    "2. **forward函数流程**\n",
+    "\n",
+    "**输入：**\n",
+    "\n",
+    "- `src`：源语言序列，形状为[src长度, batch大小]\n",
+    "\n",
+    "- `trg`：目标语言序列，形状为[trg长度, batch大小]\n",
+    "\n",
+    "- `teacher_forcing_ratio`：teacher forcing概率（0.0~1.0）\n",
+    "\n",
+    "**处理步骤：**\n",
+    "\n",
+    "a)初始化输出张量：`outputs = torch.zeros(trg_length, batch_size, trg_vocab_size).to(self.device)`，创建一个全零张量用于存储所有时间步的解码器输出。\n",
+    "\n",
+    "b)编码阶段：`hidden, cell = self.encoder(src)`，编码器处理源语言序列，返回最终的隐藏状态和细胞状态，作为解码器的初始状态。\n",
+    "\n",
+    "c)解码阶段：\n",
+    "\n",
+    "+ 初始输入：使用目标序列的第一个token（通常是`<sos>`），`input = trg[0, :]`\n",
+    "+ 循环解码：\n",
+    "``` python\n",
+    "for t in range(1, trg_length):\n",
+    "    output, hidden, cell = self.decoder(input, hidden, cell)\n",
+    "    outputs[t] = output\n",
+    "    # teacher forcing逻辑\n",
+    "    teacher_force = random.random() < teacher_forcing_ratio\n",
+    "    top1 = output.argmax(1)  # 获取预测最可能的token\n",
+    "    input = trg[t] if teacher_force else top1\n",
+    " ```\n",
+    "- 每个时间步：\n",
+    "\n",
+    "    + 解码器接收当前输入和LSTM状态，生成输出和新状态\n",
+    "\n",
+    "    + 存储当前时间步的输出\n",
+    "\n",
+    "    + 根据teacher_forcing_ratio决定下一个输入是真实token还是预测token\n",
+    "\n",
+    "**输出：**\n",
+    "\n",
+    "- outputs：形状为`[trg长度, batch大小, trg词汇表大小]`的张量，包含每个时间步对目标词汇的预测概率分布。\n",
+    "\n",
+    "3. **Teacher Forcing机制**\n",
+    "\n",
+    "Teacher Forcing是一种训练技巧，其核心思想是：\n",
+    "\n",
+    "- 概率性选择输入：\n",
+    "\n",
+    "    + 以teacher_forcing_ratio的概率使用真实目标序列中的token作为下一个解码器输入。\n",
+    "\n",
+    "    + 以1 - teacher_forcing_ratio的概率使用解码器自己的预测作为下一个输入。\n",
+    "\n",
+    "- 作用：\n",
+    "\n",
+    "    + 使用真实token（teacher forcing）可以加速模型收敛，防止早期训练时错误累积。\n",
+    "\n",
+    "    + 使用预测token（非teacher forcing）可以让模型学习处理自己的错误，提高鲁棒性。\n",
+    " \n",
+    "- 典型设置：\n",
+    "\n",
+    "    + 训练初期：高`teacher_forcing_ratio`（如0.75）\n",
+    "\n",
+    "    + 训练后期：逐步降低该比例\n",
+    "\n",
+    "    + 推理阶段：始终使用预测`token（teacher_forcing_ratio=0）`\n",
+    " \n",
+    "4. 设计要点\n",
+    "\n",
+    "- 状态传递：编码器的最终状态完整传递给解码器，包含源序列的全部上下文信息。\n",
+    "\n",
+    "- 序列生成：解码是自回归过程，每个时间步依赖前一步的输出。\n",
+    "\n",
+    "- 灵活性：通过teacher_forcing_ratio可以灵活控制训练行为。"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 31,
-   "id": "701fffa7-dd11-4c41-ad37-60a8e3bb861a",
+   "execution_count": 40,
+   "id": "b9998669-c5d7-4cae-99b9-ac74a820f73d",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -863,8 +1155,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 45,
-   "id": "7662af54-6adb-402c-aacd-59c47e0e2015",
+   "execution_count": 41,
+   "id": "2535b04e-39ad-4952-8567-23ad83f26098",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -877,6 +1169,7 @@
     "encoder_dropout = 0.5\n",
     "decoder_dropout = 0.5\n",
     "device = torch.device(\"cuda\" if torch.cuda.is_available() else \"cpu\")\n",
+    "\n",
     "# 编码器初始化\n",
     "encoder = Encoder(\n",
     "    input_dim,\n",
@@ -885,6 +1178,7 @@
     "    n_layers,\n",
     "    encoder_dropout,\n",
     ")\n",
+    "\n",
     "# 解码器初始化\n",
     "decoder = Decoder(\n",
     "    output_dim,\n",
@@ -893,14 +1187,15 @@
     "    n_layers,\n",
     "    decoder_dropout,\n",
     ")\n",
+    "\n",
     "# Seq2Seq模型整合\n",
     "model = Seq2Seq(encoder, decoder, device).to(device)"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 33,
-   "id": "06b0fba3-41c4-470d-be29-49ded95a6b64",
+   "execution_count": 42,
+   "id": "2d535731-9551-4f9f-981b-644a66fbdd3c",
    "metadata": {},
    "outputs": [
     {
@@ -921,7 +1216,7 @@
        ")"
       ]
      },
-     "execution_count": 33,
+     "execution_count": 42,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -937,8 +1232,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 34,
-   "id": "cc4ad627-68e0-4610-a223-b598e61cd146",
+   "execution_count": 43,
+   "id": "d0891ffe-214c-48ac-b391-254c31e3c60b",
    "metadata": {},
    "outputs": [
     {
@@ -959,8 +1254,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 35,
-   "id": "8a23be72-9597-4216-b47c-b1c1aad2998d",
+   "execution_count": 44,
+   "id": "2be14455-3b63-45be-abee-4d80140aaa7a",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -969,8 +1264,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 36,
-   "id": "4a044cfa-13ca-4183-8ba5-a7a3ef8e1859",
+   "execution_count": 45,
+   "id": "61cea329-6297-4285-81b1-5e93e5026e10",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -980,60 +1275,77 @@
   {
    "cell_type": "code",
    "execution_count": 46,
-   "id": "021ddb26-5c73-4001-bf67-6752e54a3c3e",
+   "id": "f887bf8d-8875-47c4-965d-ef76b4523675",
    "metadata": {},
    "outputs": [],
    "source": [
+    "# 定义训练函数\n",
     "def train_fn(\n",
-    "    model, data_loader, optimizer, criterion, clip, teacher_forcing_ratio, device\n",
+    "    model,           # 要训练的模型\n",
+    "    data_loader,     # 数据加载器，用于批量加载训练数据\n",
+    "    optimizer,       # 优化器，用于更新模型参数\n",
+    "    criterion,       # 损失函数，用于计算模型输出与目标之间的差异\n",
+    "    clip,           # 梯度裁剪的阈值，防止梯度爆炸\n",
+    "    teacher_forcing_ratio,  # 教师强制比例，控制使用真实标签作为解码器输入的概率\n",
+    "    device          # 计算设备（如'cuda'或'cpu'）\n",
     "):\n",
-    "    # 设置模型为训练模式（启用Dropout等训练专用层）\n",
+    "    # 将模型设置为训练模式（这会启用dropout和batch normalization等训练特有的层）\n",
     "    model.train()\n",
-    "    # 初始化累计损失\n",
+    "    \n",
+    "    # 初始化epoch损失为0\n",
     "    epoch_loss = 0\n",
     "    \n",
     "    # 遍历数据加载器中的每个批次\n",
     "    for i, batch in enumerate(data_loader):\n",
-    "        # 获取源语言（德语）和目标语言（英语）张量\n",
-    "        src = batch[\"de_ids\"].to(device)  # [src_len, batch_size]\n",
-    "        trg = batch[\"en_ids\"].to(device)  # [trg_len, batch_size]\n",
+    "        # 从批次中获取源语言（德语）数据并移动到指定设备\n",
+    "        src = batch[\"de_ids\"].to(device)\n",
+    "        # 从批次中获取目标语言（英语）数据并移动到指定设备\n",
+    "        trg = batch[\"en_ids\"].to(device)\n",
+    "        # src的形状 = [src长度, 批次大小]\n",
+    "        # trg的形状 = [trg长度, 批次大小]\n",
     "        \n",
-    "        # 清空上一批次的梯度\n",
+    "        # 清除优化器中的梯度（防止梯度累积）\n",
     "        optimizer.zero_grad()\n",
     "        \n",
-    "        # 前向传播：获取模型预测结果（包含所有时间步）\n",
-    "        output = model(src, trg, teacher_forcing_ratio)  # [trg_len, batch_size, trg_vocab_size]\n",
+    "        # 前向传播：将源数据和目标数据输入模型\n",
+    "        # teacher_forcing_ratio控制是否使用教师强制\n",
+    "        output = model(src, trg, teacher_forcing_ratio)\n",
+    "        # output的形状 = [trg长度, 批次大小, trg词汇表大小]\n",
     "        \n",
-    "        # 调整输出形状以计算损失（忽略第一个<sos>标记）\n",
-    "        output_dim = output.shape[-1]  # 目标词表大小\n",
-    "        output = output[1:].view(-1, output_dim)  # [(trg_len-1)*batch_size, trg_vocab_size]\n",
+    "        # 获取输出维度（目标词汇表大小）\n",
+    "        output_dim = output.shape[-1]\n",
     "        \n",
-    "        # 调整目标序列形状（忽略第一个<sos>标记）\n",
-    "        trg = trg[1:].view(-1)  # [(trg_len-1)*batch_size]\n",
+    "        # 重塑输出：忽略第一个token（通常是<bos>），并将结果展平\n",
+    "        output = output[1:].view(-1, output_dim)\n",
+    "        # output的形状 = [(trg长度 - 1) * 批次大小, trg词汇表大小]\n",
     "        \n",
-    "        # 计算交叉熵损失（预测结果 vs 真实标签）\n",
+    "        # 重塑目标：忽略第一个token（<bos>），并将结果展平\n",
+    "        trg = trg[1:].view(-1)\n",
+    "        # trg的形状 = [(trg长度 - 1) * 批次大小]\n",
+    "        \n",
+    "        # 计算损失：模型输出与真实目标之间的差异\n",
     "        loss = criterion(output, trg)\n",
     "        \n",
-    "        # 反向传播计算梯度\n",
+    "        # 反向传播：计算梯度\n",
     "        loss.backward()\n",
     "        \n",
-    "        # 梯度裁剪防止梯度爆炸\n",
+    "        # 梯度裁剪：防止梯度爆炸\n",
     "        torch.nn.utils.clip_grad_norm_(model.parameters(), clip)\n",
     "        \n",
     "        # 更新模型参数\n",
     "        optimizer.step()\n",
     "        \n",
-    "        # 累计批次损失（自动从计算图中分离）\n",
+    "        # 累加当前批次的损失值\n",
     "        epoch_loss += loss.item()\n",
     "    \n",
-    "    # 返回平均每个批次的损失\n",
+    "    # 返回整个epoch的平均损失\n",
     "    return epoch_loss / len(data_loader)"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 38,
-   "id": "41d2f1b9-3a3b-4415-8b6f-5ec1ce0044cd",
+   "execution_count": 47,
+   "id": "6b7e35b0-1490-48a8-b69d-0e8f341ac692",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -1060,23 +1372,23 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 39,
-   "id": "55a2faac-31a9-4032-ae53-8af86ccc570b",
+   "execution_count": 59,
+   "id": "d0cd21eb-e01d-407b-a662-772255f22db5",
    "metadata": {},
    "outputs": [
     {
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "100%|███████████████████████████████████████████████████████████████████████████████████| 1/1 [13:17<00:00, 797.08s/it]"
+      "100%|███████████████████████████████████████████████████████████████████████████████████| 1/1 [10:27<00:00, 627.03s/it]"
      ]
     },
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "\tTrain Loss:   5.027 | Train PPL: 152.445\n",
-      "\tValid Loss:   4.870 | Valid PPL: 130.316\n"
+      "\tTrain Loss:   3.625 | Train PPL:  37.507\n",
+      "\tValid Loss:   4.155 | Valid PPL:  63.727\n"
      ]
     },
     {
@@ -1093,6 +1405,9 @@
     "teacher_forcing_ratio = 0.5\n",
     "\n",
     "best_valid_loss = float(\"inf\")\n",
+    "\n",
+    "device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')\n",
+    "model = model.to(device)  # 将模型移至GPU\n",
     "\n",
     "for epoch in tqdm.tqdm(range(n_epochs)):\n",
     "    train_loss = train_fn(\n",
@@ -1114,13 +1429,13 @@
     "        best_valid_loss = valid_loss\n",
     "        torch.save(model.state_dict(), \"tut1-model.pt\")\n",
     "    print(f\"\\tTrain Loss: {train_loss:7.3f} | Train PPL: {np.exp(train_loss):7.3f}\")\n",
-    "    print(f\"\\tValid Loss: {valid_loss:7.3f} | Valid PPL: {np.exp(valid_loss):7.3f}\")"
+    "    print(f\"\\tValid Loss: {valid_loss:7.3f} | Valid PPL: {np.exp(valid_loss):7.3f}\")\n"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 40,
-   "id": "fd8191ae-dd7f-485e-90e7-60cba1709e94",
+   "execution_count": 60,
+   "id": "89f31ab2-9d47-4989-b992-7d7cfb427c75",
    "metadata": {},
    "outputs": [
     {
@@ -1129,7 +1444,7 @@
        "<All keys matched successfully>"
       ]
      },
-     "execution_count": 40,
+     "execution_count": 60,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -1140,8 +1455,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 41,
-   "id": "4cc18192-b88f-4e8f-90b1-95f23afd653a",
+   "execution_count": 61,
+   "id": "60f0f5b0-9e47-4296-901b-9e381b4d021c",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -1184,8 +1499,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 42,
-   "id": "570fb395-82b3-48ca-b8e3-b9ce4eef9d23",
+   "execution_count": 62,
+   "id": "0e18d156-991b-41f5-8608-32baf442079d",
    "metadata": {},
    "outputs": [
     {
@@ -1195,7 +1510,7 @@
        " 'A man in an orange hat starring at something.')"
       ]
      },
-     "execution_count": 42,
+     "execution_count": 62,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -1209,8 +1524,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 43,
-   "id": "1129061d-f5b7-4b4a-a084-89d6ba3d0b45",
+   "execution_count": 63,
+   "id": "0b3922ee-7eb5-4c0e-9e6e-a0260c7fb768",
    "metadata": {},
    "outputs": [],
    "source": [
@@ -1230,8 +1545,8 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 44,
-   "id": "aca0a097-b4d8-4b20-b258-cd9dec1d077d",
+   "execution_count": 64,
+   "id": "492f5447-6431-4225-84aa-055ba51f27eb",
    "metadata": {},
    "outputs": [
     {
@@ -1242,19 +1557,17 @@
        " 'man',\n",
        " 'in',\n",
        " 'a',\n",
-       " 'a',\n",
+       " 'blue',\n",
        " 'shirt',\n",
        " 'is',\n",
        " 'a',\n",
        " 'a',\n",
-       " 'a',\n",
-       " 'a',\n",
-       " 'a',\n",
+       " '.',\n",
        " '.',\n",
        " '<eos>']"
       ]
      },
-     "execution_count": 44,
+     "execution_count": 64,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -1262,14 +1575,6 @@
    "source": [
     "translation"
    ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "222e96ba-9ec9-4667-8601-d00501497fbc",
-   "metadata": {},
-   "outputs": [],
-   "source": []
   }
  ],
  "metadata": {
